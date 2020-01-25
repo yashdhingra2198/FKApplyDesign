@@ -1,8 +1,12 @@
 
 import java.util.*;
 
+interface Drawable{
+    void printBoard();
+}
 
-public class ticTacToe{
+
+public class ticTacToe implements Drawable{
 
         public static final int ROWS=3;
         public static final int COLS=3;
@@ -20,17 +24,20 @@ public class ticTacToe{
             initialiseBoard();
             int x,y;
             turn="X";
+            Drawable d=new ticTacToe();
             while(winner==null)
             {
                 count++;
-                if(count==10)
+                if(count==ROWS*COLS+1)
                 {
-                    printBoard();
+                    d.printBoard();
                     System.out.println("The match is a draw");
 
                     break;
                 }
-                printBoard();
+
+                d.printBoard();
+
                 System.out.println("User "+ turn+",please enter the coordinates(starting from 1) where you want to mark");
                  x=in.nextInt();
                  y=in.nextInt();
@@ -83,8 +90,7 @@ public class ticTacToe{
 
         }
 
-        public static void printBoard(){
-
+        public void printBoard(){
             for(int row=0;row<board.length;row++) {
                 for (int col=0;col<board[row].length;col++) {
                     System.out.print(board[row][col] + " , ");
@@ -93,6 +99,8 @@ public class ticTacToe{
             }
 
         }
+
+
 
 
 
