@@ -58,15 +58,103 @@ class computer implements gameplay{
 class manager{
 
     static String[][] board=new String[ticTacToe.sizeofmatrix][ticTacToe.sizeofmatrix ];
+    static String[][] localboard=new String[3][3];
 
         String winner=null;
     static String turn;
     static int x,y;
+    static int flag=0;
 
 
          void checkwin(int row,int col){
 
-             boolean val=true;
+             int startrow=row;
+             int startcol=col;
+
+
+
+             while(startrow%3!=0)
+             {
+                 startrow--;
+             }
+
+             while(startcol%3!=0)
+             {
+                 startcol--;
+             }
+
+             
+
+            boolean val=true;
+             for(int j=startcol;j<startcol+3;j++)
+             {
+                 if(flag==0)
+                 val = val && turn.equals(board[row][j]);
+                 else
+                     val = val && turn.equals(localboard[row][j]);
+
+
+             }
+
+             if(val==false)
+             {
+                 int i;
+                 val=true;
+                 for( i=startrow;i<startrow+3;i++) {
+
+                     if(flag==0)
+                     val = val && turn.equals(board[i][col]);
+                     else
+                         val = val && turn.equals(localboard[i][col]);
+
+
+                 }
+
+                 if(val==false&&row==col)
+                 {
+                     val=true;
+                     for( i=startrow;i<startrow+3;i++) {
+                         if(flag==0)
+                         val = val && turn.equals(board[i][i]);
+                         else
+                             val = val && turn.equals(localboard[i][i]);
+
+
+                     }
+
+                 }
+                 else if(val==false&&row+col==8)
+                 {
+                     val=true;
+                     int jj=startcol+2;
+                     for(i=startrow;i<ticTacToe.sizeofmatrix;i++) {
+                        if(flag==0)
+                         val = val && turn.equals(board[i][jj]);
+                        else
+                            val = val && turn.equals(localboard[i][jj]);
+
+                         jj--;
+                     }
+
+                 }
+             }
+             if(val==true&&flag==0)
+             {
+                 localboard[startrow/3][startcol/3]=board[row][col];
+                 flag=1;
+                 checkwin(startrow/3,startcol/3);
+                 flag=0;
+             }
+             if(val==true&&flag==1)
+                 winner=turn;
+
+
+
+
+
+
+
+           /*  boolean val=true;
              for(int j=0;j<ticTacToe.sizeofmatrix;j++)
              {
                  val = val && turn.equals(board[row][j]);
@@ -99,6 +187,8 @@ class manager{
              if(val==true)
                  winner=turn;
 
+            */
+
 
 
 
@@ -118,15 +208,28 @@ class manager{
                     board[row][col]=" ";
                 }
 
+             for(int row=0;row<3;row++)
+                 for(int col=0;col<3;col++){
+                     localboard[row][col]=" ";
+                 }
+
         }
 
          void printBoard(){
             for(int row=0;row<board.length;row++) {
-                for (int col=0;col<board[row].length;col++) {
-                    System.out.print(board[row][col] + " , ");
-                }
-                System.out.print("\n");
-            }
+                 for (int col=0;col<board[row].length;col++) {
+                     System.out.print(board[row][col] + " , ");
+                 }
+                 System.out.print("\n");
+             }
+             for(int row=0;row<3;row++) {
+                 for (int col=0;col<3;col++) {
+                     System.out.print(localboard[row][col] + " , ");
+                 }
+                 System.out.print("\n");
+             }
+
+
 
         }
 }
@@ -143,21 +246,30 @@ class ticTacToe {
             System.out.println("Enter the size of matrix");
             sizeofmatrix=in.nextInt();
 
+
             int numberOfTurns=0;
             //manager obj=new manager();
+
             int key;
+
             while(true) {
+
                 while(true) {
                     System.out.println("Press 1 for human vs human game or 2 to play with computer and 3 for exit");
                     key = in.nextInt();
+
                     if (key == 3)
                         System.exit(0);
                     if(key==1||key==2)
                         break;
+
                 }
+
                 manager obj=new manager();
                 obj.initialiseBoard();
                 while (Objects.isNull(obj.winner)) {
+                    if(numberOfTurns==0)
+                        obj.printBoard();
                     numberOfTurns++;
                     if (numberOfTurns == sizeofmatrix * sizeofmatrix + 1) {
                         obj.printBoard();
@@ -165,7 +277,9 @@ class ticTacToe {
 
                         break;
                     }
-                    obj.printBoard();
+
+
+
                     if (numberOfTurns == 1)
                         obj.turn = "X";
                     if (key == 1 || numberOfTurns % 2 == 0) {
@@ -174,11 +288,17 @@ class ticTacToe {
                         h.play();
                     }
                     if (key == 2 && numberOfTurns % 2 == 1) {
+
                         computer m = new computer();
                         m.play();
+
+
                     }
 
+
+
                     obj.checkwin((obj.x) - 1, (obj.y) - 1);
+                    obj.printBoard();
 
                     if (obj.winner == "X") {
                         System.out.println("X won the match");
@@ -191,9 +311,19 @@ class ticTacToe {
                         obj.turn = "O";
                     else
                         obj.turn = "X";
+
+
                 }
             }
 
         }
+
+
+
+
+
+
+
+
 
 }
