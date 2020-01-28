@@ -53,16 +53,20 @@ class manager{
          void checkwin(int row,int col){
              int startrow=row;
              int startcol=col;
-             while(startrow%3!=0)
+             int var=3;
+             if(ticTacToe.sizeofmatrix==4)
+                 var=4;
+             while(startrow%var!=0)
              {
                  startrow--;
              }
-             while(startcol%3!=0)
+             while(startcol%var!=0)
              {
                  startcol--;
              }
             boolean val=true;
-             for(int j=startcol;j<startcol+3;j++)
+
+             for(int j=startcol;j<startcol+var;j++)
              {
                  val = val && turn.equals(board[n][row][j]);
              }
@@ -70,26 +74,31 @@ class manager{
              {
                  int i;
                  val=true;
-                 for( i=startrow;i<startrow+3;i++) {
+                 for( i=startrow;i<startrow+var;i++) {
                      val = val && turn.equals(board[n][i][col]);
                  }
 
                  if(val==false&&row==col)
                  {
                      val=true;
-                     for( i=startrow;i<startrow+3;i++) {
+                     for( i=startrow;i<startrow+var;i++) {
                          val = val && turn.equals(board[n][i][i]);
                      }
                  }
-                 else if(val==false&&row+col==8)
+                 else if(val==false&&row+col==((var*var)-1))
                  {
                      val=true;
-                     int jj=startcol+2;
+                     int jj=startcol+var-1;
                      for(i=startrow;i<ticTacToe.sizeofmatrix;i++) {
                          val = val && turn.equals(board[n][i][jj]);
                          jj--;
                      }
                  }
+             }
+             if(val==true&&ticTacToe.sizeofmatrix==4)
+             {
+                 winner=turn;
+                 return ;
              }
              if(val==true)
              {
@@ -130,6 +139,7 @@ class manager{
 
 class ticTacToe {
     static int sizeofmatrix;
+    static int countP1,countP2;
         public static void main(String args[])
         {
             Scanner in = new Scanner(System.in);
@@ -172,12 +182,19 @@ class ticTacToe {
                     obj.printBoard();
 
                     if (obj.winner == "X") {
+                        countP1++;
                         System.out.println("X won the match");
+                        if(obj.winner=="X"||obj.winner=="O")
+                            System.out.println("leaderboard: player X score"+ countP1+" player 2 score " + countP2);
                         break;
                     } else if (obj.winner == "O") {
+                        countP2++;
                         System.out.println("O won the match");
+                        if(obj.winner=="X"||obj.winner=="O")
+                            System.out.println("leaderboard: player X score "+ countP1 +" player O score " + countP2);
                         break;
                     }
+
                     if (obj.turn == "X")
                         obj.turn = "O";
                     else
