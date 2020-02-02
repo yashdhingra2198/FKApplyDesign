@@ -17,24 +17,24 @@ class human implements gameplay
     Scanner in = new Scanner(System.in);
     public void play() {
         int x, y;
-        manager managerObj = new manager();
+
         while(true)
         {
-            System.out.println("User " + managerObj.turn + ",please enter the (x,y) coordinates(starting from 1) where you want to mark.");
+            System.out.println("User " + manager.turn + ",please enter the (x,y) coordinates(starting from 1) where you want to mark.");
             x = in.nextInt();
             y = in.nextInt();
-            managerObj.x = x;
-            managerObj.y = y;
-            if (managerObj.board[0][x - 1][y - 1].equals("X") || managerObj.board[0][x - 1][y - 1].equals("O")) {
+            manager.x = x;
+            manager.y = y;
+            if (manager.board[0][x - 1][y - 1].equals("X") ||manager.board[0][x - 1][y - 1].equals("O")) {
                 System.out.println("Invalid coordinates. Please try again.");
                 continue;
             } else
                 break;
         }
-        if (managerObj.turn == "X") {
-            managerObj.board[0][x - 1][y - 1] = "X";
+        if (manager.turn == "X") {
+            manager.board[0][x - 1][y - 1] = "X";
         } else {
-            managerObj.board[0][x - 1][y - 1] = "O";
+            manager.board[0][x - 1][y - 1] = "O";
         }
     }
 }
@@ -44,17 +44,17 @@ class computer implements gameplay
     public void play()
     {
         int flag=0;
-        manager managerObj = new manager();
+
 
         for (int i = 0; i < ticTacToe.sizeofmatrix; i++)
         {
             for (int j = 0; j < ticTacToe.sizeofmatrix; j++)
             {
-                if ((managerObj.board[0][i][j]).equals(" "))
+                if ((manager.board[0][i][j]).equals(" "))
                 {
-                    managerObj.board[0][i][j] = "X";
-                    managerObj.x=i+1;
-                    managerObj.y=j+1;
+                    manager.board[0][i][j] = "X";
+                    manager.x=i+1;
+                    manager.y=j+1;
                     flag=1;
                     break;
                 }
@@ -62,7 +62,7 @@ class computer implements gameplay
             if(flag==1)
                 break;
         }
-        System.out.println("Computer has marked on ("+managerObj.x+","+managerObj.y+") coordinates.");
+        System.out.println("Computer has marked on ("+manager.x+","+manager.y+") coordinates.");
     }
 }
 
@@ -171,8 +171,6 @@ class supermanager implements managegame
     String winner=null;
     static String turn;
     static int x,y;
-    static int flag=0;
-    static int n=0;
     public void checkwin(int row,int col)
     {
         boolean val=true;
@@ -332,28 +330,28 @@ class superhuman implements gameplay
     public void play()
     {
         int x, y;
-        supermanager supmanobj = new supermanager();
+
         while(true)
         {
-            System.out.println("User " + supmanobj.turn + ",please enter the (x,y) coordinates(starting from 1) where you want to mark. Note: Provide coordinates for empty cell only.");
+            System.out.println("User " + supermanager.turn + ",please enter the (x,y) coordinates(starting from 1) where you want to mark. Note: Provide coordinates for empty cell only.");
             x = in.nextInt();
             y = in.nextInt();
-            supmanobj.x = x;
-            supmanobj.y = y;
-            if (supmanobj.board[x - 1][y - 1] == "*") {
+            supermanager.x = x;
+            supermanager.y = y;
+            if (supermanager.board[x - 1][y - 1] == "-") {
                 System.out.println("Invalid coordinates. Please try again.");
                 continue;
             }
             else
                 break;
         }
-        if (supmanobj.turn == "X")
+        if (supermanager.turn == "X")
         {
-            supmanobj.board[x - 1][y - 1] = "X";
+            supermanager.board[x - 1][y - 1] = "X";
         }
         else
             {
-            supmanobj.board[x - 1][y - 1] = "O";
+                supermanager.board[x - 1][y - 1] = "O";
             }
     }
 }
@@ -362,17 +360,17 @@ class supercomputer implements gameplay
     public void play()
     {
         int flag=0,i,j;
-        supermanager supmanagerObj = new supermanager();
 
-        for (i = 0; i < supmanagerObj.rowsize; i++)
+
+        for (i = 0; i < supermanager.rowsize; i++)
         {
-            for (j = 0; j <supmanagerObj.colsize; j++)
+            for (j = 0; j <supermanager.colsize; j++)
             {
-                if ((supmanagerObj.board[i][j]).equals(" "))
+                if ((supermanager.board[i][j]).equals(" "))
                 {
-                    supmanagerObj.board[i][j] = "X";
-                    supmanagerObj.x=i+1;
-                    supmanagerObj.y=j+1;
+                    supermanager.board[i][j] = "X";
+                    supermanager.x=i+1;
+                    supermanager.y=j+1;
                     flag=1;
                     break;
                 }
@@ -380,7 +378,7 @@ class supercomputer implements gameplay
             if(flag==1)
                 break;
         }
-        System.out.println("Computer has marked on ("+supmanagerObj.x+","+supmanagerObj.y+") coordinates.");
+        System.out.println("Computer has marked on ("+supermanager.x+","+supermanager.y+") coordinates.");
     }
 }
 class ticTacToe
@@ -388,9 +386,10 @@ class ticTacToe
     static int sizeofmatrix;
     static int edgesizeofhexagon;
     static int countP1,countP2;
+    static Scanner in = new Scanner(System.in);
         public static void main(String args[])
         {
-            Scanner in = new Scanner(System.in);
+
             System.out.println("Enter 1 to play normal tictactoe or 2 to play hexagonal tictactoe.");
             int key=in.nextInt();
             if(key==1)
@@ -400,10 +399,13 @@ class ticTacToe
         }
      public static void supertictactoe()
      {
-         Scanner in = new Scanner(System.in);
+         superhuman h = new superhuman();
+         supercomputer m = new supercomputer();
+
          while(true) {
              System.out.println("Enter the size of edge of hexagonal matrix(size of edge should be greater than 2).");
              edgesizeofhexagon = in.nextInt();
+
              if (edgesizeofhexagon < 3) {
                  System.out.println("Try again with valid size!!!");
                  continue;
@@ -412,11 +414,12 @@ class ticTacToe
                  break;
 
          }
+         supermanager supobj=new supermanager();
          int numberOfTurns;
          int key;
          while (true)
          {
-             supermanager supobj=new supermanager();
+
              while (true)
              {
                  System.out.println("Press 1 for human vs human game or 2 to play with computer and 3 for exit.");
@@ -431,6 +434,7 @@ class ticTacToe
                  }
              }
              supobj.initialiseBoard();
+             supobj.winner=null;
              while (Objects.isNull(supobj.winner))
              {
                  if (numberOfTurns == 0)
@@ -446,12 +450,12 @@ class ticTacToe
                      supobj.turn = "X";
                  if (key == 1 || numberOfTurns % 2 == 0)
                  {
-                     superhuman h = new superhuman();
+
                      h.play();
                  }
                  if (key == 2 && numberOfTurns % 2 == 1)
                  {
-                     supercomputer m = new supercomputer();
+
                      m.play();
                  }
                  supobj.checkwin((supobj.x) - 1, (supobj.y) - 1);
@@ -480,11 +484,14 @@ class ticTacToe
      }
     public static void tictactoegame()
     {
-        Scanner in = new Scanner(System.in);
+
         System.out.println("Enter the size of matrix (size should either be 4 or multiples of 3.");
         sizeofmatrix = in.nextInt();
         int numberOfTurns = 0;
         //manager obj=new manager();
+        manager obj = new manager();
+        human h = new human();
+        computer m = new computer();
         int key;
         while (true)
         {
@@ -499,8 +506,9 @@ class ticTacToe
                     break;
                 }
             }
-            manager obj = new manager();
+
             obj.initialiseBoard();
+            obj.winner=null;
             while (Objects.isNull(obj.winner))
             {
                 if (numberOfTurns == 0)
@@ -516,12 +524,12 @@ class ticTacToe
                     obj.turn = "X";
                 if (key == 1 || numberOfTurns % 2 == 0)
                 {
-                    human h = new human();
+
                     h.play();
                 }
                 if (key == 2 && numberOfTurns % 2 == 1)
                 {
-                    computer m = new computer();
+
                     m.play();
                 }
                 obj.checkwin((obj.x) - 1, (obj.y) - 1);
