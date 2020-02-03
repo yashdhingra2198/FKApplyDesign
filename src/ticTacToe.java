@@ -381,7 +381,7 @@ class supercomputer implements gameplay
         System.out.println("Computer has marked on ("+supermanager.x+","+supermanager.y+") coordinates.");
     }
 }
-public class ticTacToe
+class ticTacToe
 {
     static int sizeofmatrix;
     static int edgesizeofhexagon;
