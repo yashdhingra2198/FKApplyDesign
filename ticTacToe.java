@@ -387,6 +387,7 @@ public class ticTacToe
     static int edgesizeofhexagon;
     static int countP1,countP2;
     static Scanner in = new Scanner(System.in);
+    
         public static void main(String args[])
         {
 
@@ -397,6 +398,8 @@ public class ticTacToe
             else if(key==2)
                 supertictactoe();
         }
+
+
      public static void supertictactoe()
      {
          superhuman h = new superhuman();
